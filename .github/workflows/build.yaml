@@ -32,7 +32,7 @@ jobs:
         run: |
           echo "name := \samplejar" > build.sbt
           echo "version := \0.1" >> build.sbt
-          echo "scalaVersion := \2.13.10" >> build.sbt
+          echo "scalaVersion := \2.12" >> build.sbt
           echo "mainClass in Compile := Some(\"Main\")" >> build.sbt  # Adjust to your main class
 
       - name: Build with sbt
