@@ -37,4 +37,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: scala-jar
-        path: target/scala-2.13/your-project-assembly-0.1.jar # Adjust version and Scala version as needed
+        path: target/scala-2.12/your-project-assembly-0.1.jar # Adjust version and Scala version as needed
