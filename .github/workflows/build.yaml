@@ -1,0 +1,40 @@
+name: Build Scala Project
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11' # Set to your required Java version
+        distribution: 'adopt'
+
+    - name: Cache SBT
+      uses: actions/cache@v2
+      with:
+        path: ~/.sbt
+        key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-
+
+    - name: Build with SBT
+      run: sbt assembly
+
+    - name: Upload JAR artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: scala-jar
+        path: target/scala-2.13/your-project-assembly-0.1.jar # Adjust version and Scala version as needed
