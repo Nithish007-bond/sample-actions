@@ -34,7 +34,7 @@ jobs:
       run: sbt assembly
 
     - name: Upload JAR artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: scala-jar
         path: target/scala-2.13/your-project-assembly-0.1.jar # Adjust version and Scala version as needed
