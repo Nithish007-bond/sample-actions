@@ -1,9 +1,9 @@
-name: Build Scala Project
+name: Build Scala File to JAR
 
 on:
   push:
     branches:
-      - main
+      - main  # Change this to your default branch
   pull_request:
     branches:
       - main
@@ -13,28 +13,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11' # Set to your required Java version
-        distribution: 'adopt'
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'  # Specify your required Java version
+          distribution: 'adopt'
 
-    - name: Cache SBT
-      uses: actions/cache@v2
-      with:
-        path: ~/.sbt
-        key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-sbt-
+      - name: Install sbt
+        run: |
+          echo "Installing sbt..."
+          sudo apt-get update
+          sudo apt-get install -y sbt
 
-    - name: Build with SBT
-      run: sbt assembly
+      - name: Create build.sbt file
+        run: |
+          echo "name := \samplejar" > build.sbt
+          echo "version := \0.1" >> build.sbt
+          echo "scalaVersion := \2.13.10" >> build.sbt
+          echo "mainClass in Compile := Some(\"Main\")" >> build.sbt  # Adjust to your main class
 
-    - name: Upload JAR artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: scala-jar
-        path: target/scala-2.12/sample.jar # Adjust version and Scala version as needed
+      - name: Build with sbt
+        run: sbt clean compile package
+
+      - name: Upload JAR file
+        uses: actions/upload-artifact@v2
+        with:
+          name: scala-jar
+          path: target/scala-2.12/sample.jar  # Adjust according to your project structure
