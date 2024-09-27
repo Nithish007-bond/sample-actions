@@ -1,4 +1,4 @@
-name := "sample.jar"
+name := "test.jar"
 version := "0.1"
 scalaVersion := "2.12.19" // Adjust this to match your codebase
 
